@@ -23,4 +23,23 @@ public class TennisGameTest {
         TennisGameState nextState = state.computeNextScore("1").computeNextScore("2");
         assertThat(nextState.currentScore()).isEqualTo("FIFTEEN - FIFTEEN");
     }
+
+    @Test
+    public void score_should_be_fifteen_thirty() {
+        TennisGameState state = new TennisGameState();
+        TennisGameState nextState = state.computeNextScore("1").computeNextScore("2").computeNextScore("2");
+        assertThat(nextState.currentScore()).isEqualTo("FIFTEEN - THIRTY");
+    }
+
+    @Test
+    public void game_should_stop_when_one_player_has_more_than_forty() {
+        TennisGameState state = new TennisGameState();
+        TennisGameState nextState = state
+                .computeNextScore("1") // 15 - 0
+                .computeNextScore("2") // 15 - 15
+                .computeNextScore("2") // 15 - 30
+                .computeNextScore("2") // 15 - 40
+                .computeNextScore("2"); // Player 2 won
+        assertThat(nextState.notFinished()).isFalse();
+    }
 }

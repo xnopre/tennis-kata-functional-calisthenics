@@ -10,7 +10,7 @@ public class TennisGame {
         TennisGameState state = new TennisGameState();
 
         while (state.notFinished()) {
-            System.out.println("score:" + state.currentScore());
+            System.out.println("score: " + state.currentScore());
             System.out.println("winner?");
             String winner = br.readLine();
 

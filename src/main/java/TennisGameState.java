@@ -1,34 +1,55 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class TennisGameState {
 
-    private int pointsPlayer1;
-    private int pointsPlayer2;
+    private final Map<Integer, Integer> playersScore;
+
+    private final Map<Integer, String> humanReadableScore;
 
     TennisGameState() {
-        this(0,0);
+        this(new HashMap<Integer, Integer>() {{
+            put(1, 0);
+            put(2, 0);
+        }});
     }
 
-    private TennisGameState(int pointsPlayer1, int pointsPlayer2) {
-        this.pointsPlayer1 = pointsPlayer1;
-        this.pointsPlayer2 = pointsPlayer2;
+    private TennisGameState(Map<Integer, Integer> playersScore) {
+        this.playersScore = new HashMap<Integer, Integer>(playersScore);
+
+        this.humanReadableScore = new HashMap<Integer, String>() {
+            {
+                put(0, "LOVE");
+                put(1, "FIFTEEN");
+                put(2, "THIRTY");
+                put(3, "FORTY");
+            }
+        };
     }
 
     public boolean notFinished() {
-        return true;
+        return !finished();
+    }
+
+    private boolean finished() {
+        return playersScore.containsValue(4);
     }
 
     public String winner() {
-        return null;
+        return playersScore.get(1) == 4 ? "1" : playersScore.get(2) == 4 ? "2" : "NONE";
     }
 
     public String currentScore() {
-        return getScorePlayer(pointsPlayer1) + " - " + getScorePlayer(pointsPlayer2);
+        return getScorePlayer(playersScore.get(1)) + " - " + getScorePlayer(playersScore.get(2));
     }
 
     private String getScorePlayer(int pointsPlayer) {
-        return pointsPlayer == 0 ? "LOVE" : "FIFTEEN";
+        return humanReadableScore.get(pointsPlayer);
     }
 
     public TennisGameState computeNextScore(String pointWinner) {
-        return new TennisGameState(this.pointsPlayer1+(pointWinner.equals("1") ? 1 : 0), this.pointsPlayer2+(pointWinner.equals("2") ? 1 : 0));
+        Map<Integer,Integer> newState = playersScore;
+        newState.put(Integer.parseInt(pointWinner), playersScore.get(Integer.parseInt(pointWinner)) + 1);
+        return new TennisGameState(newState);
     }
 }
