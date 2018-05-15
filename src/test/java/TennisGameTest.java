@@ -64,6 +64,20 @@ public class TennisGameTest {
         assertThat(nextState.currentScore()).isEqualTo("DEUCE");
     }
 
+    @Test
+    public void score_should_be_advantage_player_2() {
+        TennisGameState nextState = state
+                .computeNextScore("1")
+                .computeNextScore("1")
+                .computeNextScore("1")
+                .computeNextScore("2")
+                .computeNextScore("2")
+                .computeNextScore("2")
+                .computeNextScore("2");
+        assertThat(nextState.notFinished()).isTrue();
+        assertThat(nextState.currentScore()).isEqualTo("Advantage player 2");
+    }
+
     // Finished
 
     @Test

@@ -13,7 +13,11 @@ public class TennisGameState {
     }
 
     public boolean notFinished() {
-        return pointsPlayer1 != 4 && pointsPlayer2 != 4;
+        return !isFinished();
+    }
+
+    private boolean isFinished() {
+        return (pointsPlayer1 >= 4 || pointsPlayer2 >= 4) && Math.abs(pointsPlayer1-pointsPlayer2) > 1;
     }
 
     public String winner() {
@@ -22,7 +26,12 @@ public class TennisGameState {
 
     public String currentScore() {
         if (pointsPlayer1 >= 3 && pointsPlayer2 >=  3) {
-            return "DEUCE";
+            if (pointsPlayer1 == pointsPlayer2) {
+                return "DEUCE";
+            }
+            if (pointsPlayer2 > pointsPlayer1) {
+                return "Advantage player 2";
+            }
         }
         return getScorePlayer(pointsPlayer1) + " - " + getScorePlayer(pointsPlayer2);
     }
