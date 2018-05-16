@@ -1,3 +1,6 @@
+package tennis;
+
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -6,11 +9,15 @@ public class TennisGameTest {
 
     private TennisGameState state = new TennisGameState();
 
+    // Etat initial
+
     @Test
     public void initial_score_should_be_love_love() {
         assertThat(state.notFinished()).isTrue();
         assertThat(state.currentScore()).isEqualTo("LOVE - LOVE");
     }
+
+    // Quelques scores
 
     @Test
     public void score_should_be_fifteen_love_when_first_player_won_first_point() {
@@ -50,6 +57,8 @@ public class TennisGameTest {
         assertThat(nextState.notFinished()).isTrue();
         assertThat(nextState.currentScore()).isEqualTo("THIRTY - FORTY");
     }
+
+    // Situations particulières
 
     @Test
     public void score_should_be_deuce_case_1() {
